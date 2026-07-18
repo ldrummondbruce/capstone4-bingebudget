@@ -13,11 +13,6 @@
     "axios": "^1.18.1",
     "body-parser": "^2.3.0",
     "ejs": "^6.0.1",
-    "express": "^5.2.1",
-    "lodash": "^4.18.1"
-  },
-  "homepage": "https://github.com/ldrummondbruce/capstone4-bingebudget.git",
-  "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "express": "^5.2.1"
   }
 }
