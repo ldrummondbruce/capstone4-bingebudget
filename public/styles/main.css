@@ -1,0 +1,89 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh; /* dynamic viewport height handles mobile browsers perfectly */
+  color: #fff;
+  background-color: #4475a7;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+p {
+  text-align: justify;
+}
+
+input {
+  border-radius: 6px;
+}
+
+main {
+  flex: 1;
+}
+
+main .container-fluid {
+  display: flex;
+  flex-direction: row;
+  padding: 30px;
+}
+
+.navbar {
+  padding: 15px 0;
+  background-color: rgba(255, 255, 255, .15);
+}
+
+.navbar-nav {
+  flex-direction: row;
+  gap: 20px;
+}
+
+.navbar-nav li {
+    width: 90px;
+    border-right: 1px solid #fff;
+}
+
+.navbar-nav li:last-child {
+    border-right: none;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.sidebar .postContent, .sidebar .postTitle {
+    overflow: hidden;
+}
+
+.sidebar .postTitle {
+    font-size: .95rem;
+}
+
+.sidebar .postContent {
+  font-size: .9rem;
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.postContent a {
+  text-decoration: underline;
+}
+
+.field-error, .error-summary {
+  color: gold;
+}
+
+.show-image {
+  border: 3px #fff solid;
+  border-radius: 9px;
+}
+
+.show-url {
+  text-decoration: underline;
+}

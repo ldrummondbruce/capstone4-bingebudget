@@ -1,0 +1,66 @@
+<%- include("partials/header.ejs") %>
+
+<h1>Binge Budget</h1>
+<p><%= bbIntro %></p>
+
+<% if (errors.general) { %>
+  <div class="error-summary" role="alert">
+    <%= errors.general %>
+  </div>
+<% } %>
+
+<form action="/bbSearch" method="POST" class="row g-3">
+  <div class="col-6 mb-3">
+    <label for="bbShowName" class="form-label">Show Name</label>
+    <input type="text" class="form-control" id="bbShowName" name="bbShowName" value="<%= formData.show %>" placeholder="Enter the name of your favorite show">
+    <% if (errors.show) { %>
+      <p id="show-error" class="field-error">
+        <%= errors.show %>
+      </p>
+    <% } %>
+  </div>
+  <div class="col-2 mb-3">
+    <label for="bbWatchMins" class="form-label">Available Minutes</label>
+    <input 
+    type="text" 
+    class="form-control" 
+    id="bbWatchMins" 
+    name="bbWatchMins"
+    value="<%= formData.minutes %>"
+    inputmode="numeric"
+    pattern="[0-9]*" 
+    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+    placeholder="Enter numbers only">
+    <% if (errors.minutes) { %>
+      <p id="show-error" class="field-error">
+        <%= errors.minutes %>
+      </p>
+    <% } %>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-light btn-md px-4">Search...</button>
+  </div>
+</form>
+
+<% if (locals.bbShowOpts) { %>
+  <hr>
+  <h3>Possible Matches:</h3>
+  <ul>
+  <% bbShowOpts.forEach((show, idx) => { %>
+      <li><a href="/bbResults/<%=show.id%>" title="<%= show.name %>">
+        <p>Show Title: <strong><%= show.name %></strong></p>
+        <% if (show.image) { %>
+          <img class="show-image" src="<%= show.image.medium %>" alt="<%= show.name %>" /></a>
+        <% } %>
+        <hr>
+        <p><%- "Summary: " + show.summary %>
+        <% if (show.rating.average) { %>Rating: <%= show.rating.average %><br><% } %>
+        <% if (show.officialSite !== null) { %>(Official Site: <a href="<%= show.officialSite %>" title="<%= show.name %> Official Site" target="_blank">Click here...</a>)<% } %></p>
+        <p><a class="show-url" href="<%= show.url %>" title="TVMaze Show Details" target="_blank">Click here for more information...</a></p>
+      <hr>
+      </li>
+  <% });%>
+  </ul>
+<% } %>
+
+<%- include("partials/footer.ejs") %>

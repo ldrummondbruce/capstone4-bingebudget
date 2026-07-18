@@ -1,0 +1,31 @@
+<%- include("partials/header.ejs") %>
+
+<h1>Your Binge Budget Results</h1>
+
+<% if (locals.show && locals.watchPlan && locals.watchMins) { %>
+  <p>Let's start with <%= show.name %> Season <%= watchPlan.episodes[0].season %>, Episode <%= watchPlan.episodes[0].number %>.</p>
+  <p>You can watch <%= watchPlan.episodes.length %> complete episodes in approximately <%= watchMins %> minutes.<br>
+  You will have <%= watchPlan.remainingMinutes %> minutes remaining.</p>
+  <ul>
+  <% watchPlan.episodes.forEach((episode, idx) => { %>
+    <li>
+      <p>Episode <%= episode.number %>: <em><%= episode.name %></em><br>
+        Runtime: <%= episode.runtime %> minutes<br>
+        <% if (episode.rating.average) { %>
+          Rating: <%= episode.rating.average %>
+        <% } %></p>
+        <% if (episode.image) { %>
+          <img class="show-image" src="<%= episode.image.medium %>" alt="<%= episode.name %>" />
+        <% } %>
+      <p><%- episode.summary %>
+      <p><a class="show-url" href="<%= episode.url %>" title="TVMaze Show Details" target="_blank">More information...</a></p>
+      <hr>
+    </li>
+  <% }); %>
+  </ul>
+<% } else { %>
+  <p>No data available that matches your criteria.</p>
+<% } %>
+<a href="/" title="Return to home" class="btn btn-light btn-md px-4">Return Home</a>
+
+<%- include("partials/footer.ejs") %>
