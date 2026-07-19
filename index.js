@@ -161,13 +161,13 @@ app.get("/bbResults/:showId", async (req, res) => {
 
   try {
     const showResults = await axios.get(API_URL + '/shows/' + req.params.showId);
-    console.log (showResults.data);
+    // console.log (showResults.data);
 
     const episodeResults = await axios.get(API_URL + '/shows/' + req.params.showId + '/episodes');
-    console.log (episodeResults.data[0]);
+    // console.log (episodeResults.data[0]);
 
     const watchPlan = buildWatchPlan(episodeResults.data, bbWatchMins);
-    console.log(watchPlan);
+    // console.log(watchPlan);
 
     res.render('results.ejs', {
       watchMins: bbWatchMins,
@@ -176,7 +176,19 @@ app.get("/bbResults/:showId", async (req, res) => {
       watchPlan
     });
   } catch (error) {
-    console.log(error.message);
+    console.error("Compiling results failed: ", error.message);
+
+    res.status(404).render('index.ejs', {
+      bbIntro: bingeBudgetStartingContent,
+      errors: {
+        general:
+          'Error in compiling results. See administrator.'
+      },
+      formData: {
+        show: showInput,
+        minutes: minutesInput,
+      },
+    });
   }
 })
 

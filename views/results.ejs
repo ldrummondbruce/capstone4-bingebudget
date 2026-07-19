@@ -2,14 +2,14 @@
 
 <h1>Your Binge Budget Results</h1>
 
-<% if (locals.show && locals.watchPlan && locals.watchMins) { %>
+<% if (locals.show && locals.watchPlan.episodes.length > 0 && locals.watchMins) { %>
   <p>Let's start with <%= show.name %> Season <%= watchPlan.episodes[0].season %>, Episode <%= watchPlan.episodes[0].number %>.</p>
   <p>You can watch <%= watchPlan.episodes.length %> complete episodes in approximately <%= watchMins %> minutes.<br>
   You will have <%= watchPlan.remainingMinutes %> minutes remaining.</p>
-  <ul>
+  <ul class="episode-list">
   <% watchPlan.episodes.forEach((episode, idx) => { %>
     <li>
-      <p>Episode <%= episode.number %>: <em><%= episode.name %></em><br>
+      <p><strong>Episode <%= episode.number %></strong>: <em><%= episode.name %></em><br>
         Runtime: <%= episode.runtime %> minutes<br>
         <% if (episode.rating.average) { %>
           Rating: <%= episode.rating.average %>
@@ -24,7 +24,7 @@
   <% }); %>
   </ul>
 <% } else { %>
-  <p>No data available that matches your criteria.</p>
+  <p>No data available that matches your criteria. Enter a new show or increase minutes available to watch.</p>
 <% } %>
 <a href="/" title="Return to home" class="btn btn-light btn-md px-4">Return Home</a>
 
