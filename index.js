@@ -71,7 +71,7 @@ app.post('/bbSearch', async (req, res) => {
   const minutesInput = req.body.bbWatchMins?.trim() ?? '';
   bbWatchMins = Number(minutesInput);
 
-  console.log(showInput);
+  // console.log(showInput);
   if (!showInput) {
     errors.show = 'Please enter the name of a television show.';
   } else {
@@ -115,8 +115,8 @@ app.post('/bbSearch', async (req, res) => {
         },
       });
     } else if (results.data.length > 1) {
-      console.log(results.data);
-      console.log(results.data[0].show.image);
+      // console.log(results.data);
+      // console.log(results.data[0].show.image);
       const showOptions = [];
       for (var i = 0; i < results.data.length; i++) {
         showOptions.push(results.data[i].show);
@@ -133,7 +133,7 @@ app.post('/bbSearch', async (req, res) => {
         bbShowOpts: showOptions,
       });
     } else {
-      console.log(results.data[0].show);
+      // console.log(results.data[0].show);
       res.redirect(`/bbResults/${results.data[0].show.id}`);
     }
   } catch (error) {
@@ -154,10 +154,8 @@ app.post('/bbSearch', async (req, res) => {
 });
 
 app.get("/bbResults/:showId", async (req, res) => {
-  console.log(req.params.showId);
-  console.log(bbWatchMins);
-  // https://api.tvmaze.com/shows/showId
-  // https://api.tvmaze.com/shows/showId/episodes
+  // console.log(req.params.showId);
+  // console.log(bbWatchMins);
 
   try {
     const showResults = await axios.get(API_URL + '/shows/' + req.params.showId);
@@ -166,8 +164,24 @@ app.get("/bbResults/:showId", async (req, res) => {
     const episodeResults = await axios.get(API_URL + '/shows/' + req.params.showId + '/episodes');
     // console.log (episodeResults.data[0]);
 
+    if (episodeResults.data.length === 0) {
+      return res.status(404).render('results.ejs', {
+        errors: {
+          episode: `We couldn't find any episode data for "${showResults.data.name}".`,
+        },
+      });
+    }
+
     const watchPlan = buildWatchPlan(episodeResults.data, bbWatchMins);
     // console.log(watchPlan);
+
+    if (watchPlan.episodes.length === 0) {
+      return res.status(404).render('results.ejs', {
+        errors: {
+          episode: `We found episode information for "${showResults.data.name}", but runtime information was either unavailable or exceeded the number of available minutes.`,
+        },
+      });
+    }
 
     res.render('results.ejs', {
       watchMins: bbWatchMins,

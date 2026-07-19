@@ -2,8 +2,14 @@
 
 <h1>Your Binge Budget Results</h1>
 
+<% if (locals.errors) { %>
+  <div class="error-summary" role="alert">
+    <%= errors.episode %>
+  </div>
+<% } %>
+
 <% if (locals.show && locals.watchPlan.episodes.length > 0 && locals.watchMins) { %>
-  <p>Let's start with <%= show.name %> Season <%= watchPlan.episodes[0].season %>, Episode <%= watchPlan.episodes[0].number %>.</p>
+  <p>Let's start with "<%= show.name %>" Season <%= watchPlan.episodes[0].season %>, Episode <%= watchPlan.episodes[0].number %>.</p>
   <p>You can watch <%= watchPlan.episodes.length %> complete episodes in approximately <%= watchMins %> minutes.<br>
   You will have <%= watchPlan.remainingMinutes %> minutes remaining.</p>
   <ul class="episode-list">
